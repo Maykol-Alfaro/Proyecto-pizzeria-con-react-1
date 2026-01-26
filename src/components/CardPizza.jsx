@@ -1,4 +1,10 @@
-const CardPizza = ({ pizza, addToCart }) => {
+import { useContext } from "react";
+import { CartContext } from "../context/CartContext";
+import { Link } from "react-router-dom";
+
+const CardPizza = ({ pizza }) => {
+    const { addToCart } = useContext(CartContext);
+
     return (
         <div className="card shadow-sm h-100">
             <img src={pizza.img} className="card-img-top" alt={pizza.name} />
@@ -17,9 +23,13 @@ const CardPizza = ({ pizza, addToCart }) => {
                 </ul>
 
                 <div className="mt-auto d-flex justify-content-between">
-                    <button className="btn btn-outline-primary">
+                    <Link
+                        to={`/pizza/${pizza.id}`}
+                        className="btn btn-outline-primary"
+                    >
                         Ver más 👀
-                    </button>
+                    </Link>
+
                     <button
                         className="btn btn-success"
                         onClick={() => addToCart(pizza)}

@@ -7,7 +7,7 @@ export const CartProvider = ({ children }) => {
 
     const addToCart = (pizza) => {
         const found = cart.find((item) => item.id === pizza.id);
- 
+
         if (found) {
             setCart(
                 cart.map((item) =>
@@ -50,10 +50,12 @@ export const CartProvider = ({ children }) => {
 
     return (
         <CartContext.Provider
-      value= {{ cart, addToCart, increase, decrease, total }
-}
-    >
-    { children }
-    </CartContext.Provider>
-  );
+            value={{ cart, addToCart, increase, decrease, total }
+            }
+        >
+            {children}
+        </CartContext.Provider>
+    );
 };
+
+export default CartProvider;
