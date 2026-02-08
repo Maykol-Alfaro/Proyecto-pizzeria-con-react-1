@@ -1,86 +1,45 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { UserContext } from "../context/UserContext";
 
-export default function RegisterPage() {
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
-    const [confirmPassword, setConfirmPassword] = useState("")
+const RegisterPage = () => {
+    const { register } = useContext(UserContext);
+    const navigate = useNavigate();
 
-    const [error, setError] = useState("")
-    const [success, setSuccess] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-
-        setError("")
-        setSuccess("")
-
-        if (!email.includes("@")) {
-            setError("EL correo debe contener '@'.")
-            return
-        }
-
-        if (password.length < 6) {
-            setError("La contraseña debe tener al menos 6 caracteres.")
-            return
-        }
-
-        if (password !== confirmPassword) {
-            setError("Las contraseñas no coinciden.")
-            return
-        }
-
-        setSuccess("Registro exitoso 🎉")
-        setEmail("")
-        setPassword("")
-        setConfirmPassword("")
-    }
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        await register(email, password);
+        navigate("/");
+    };
 
     return (
-        <div className="container mt-4" style={{ maxWidth: "400px" }}>
-            <h2 className="text-center mb-3">Registro</h2>
-
-            {/* Mensajes */}
-            {error && <p className="text-danger">{error}</p>}
-            {success && <p className="text-success">{success}</p>}
+        <div className="container mt-4">
+            <h2>Register</h2>
 
             <form onSubmit={handleSubmit}>
-                {/* Email */}
-                <div className="mb-3">
-                    <label className="form-label">Correo</label>
-                    <input
-                        type="email"
-                        className="form-control"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                </div>
+                <input
+                    className="form-control mb-2"
+                    type="email"
+                    placeholder="Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                />
 
-                {/* Password */}
-                <div className="mb-3">
-                    <label className="form-label">Contraseña</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
+                <input
+                    className="form-control mb-2"
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
 
-                {/* Confirm Password */}
-                <div className="mb-3">
-                    <label className="form-label">Confirmar Contraseña</label>
-                    <input
-                        type="password"
-                        className="form-control"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    />
-                </div>
-
-                <button type="submit" className="btn btn-primary w-100">
-                    Registrarse
-                </button>
+                <button className="btn btn-primary w-100">Registrarse</button>
             </form>
         </div>
     );
-}
+};
+
+export default RegisterPage;
